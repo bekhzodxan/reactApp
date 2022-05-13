@@ -1,0 +1,37 @@
+7-mavzu
+SASS
+1. Reactda sass ni ishlatish uchun quyidagi komandani yuboring
+npm i sass
+2. .scss kengaytmali fayl hosil qiling va unga sass kodini yozing
+Misol: 
+$kok: blue;
+p {
+  color: $kok
+}
+3. Sass faylni import qilib ishlating
+import "./styles.scss";
+Mashq: Katta qizil dumoloq ichida courier fontlik G2 yozuv hosil qiling
+
+================================
+Lifecycle
+https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
+
+Constructor:
+State yoki bind qilish uchun ishlatilinadi.
+Agar ushbu ikkitasi bulmasa constructor yozish shart emas
+
+
+Render:
+Ekranga chiqarish funksiyasi. Functional componentda render() deb yoqilmaydi
+render() da statelarni o'zgartirilmaydi
+
+
+componendDidMount:
+Component tree (shajara)ga joylashganda ishga tushadi. Ma'lumotni olish kodlarini 
+shu yerga yozish kerak
+
+componentDidUpdate:
+Componentning statelari o'zgarganda ishga tushadi.
+
+componentWillUnmount:
+Component tugagishidan oldin ishga tushadi. intervallarni tozalashga uxshash kodlar yoziladi

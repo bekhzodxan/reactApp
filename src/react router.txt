@@ -1,0 +1,104 @@
+5-mavzu
+=========================================
+CSS
+1. Inline
+  style berilganda {{}} ichida camelCase yordamida yoziladi
+  object yozilsa ham buladi
+2. Alohida faylda joylashgan CSS
+ 
+
+=========================================
+Props sifatida metod ham yuvorsa bo'ladi
+
+=========================================
+Shart asosida render qilish
+1. if else yordamida
+Mashq: LoggedIn state ga qarab har hil matn chiqarish
+
+
+2. Ternary operator
+3. && Operator (short circuit) yordamida - agar biror narsa yoki hech narsa
+render qilinmoqchi bo'lsa
+
+
+===================================
+ROUTER
+React default router(bir sahifadan ikkinchisiga o'tkazuvchi)ga ega emas.
+Shu sabab biz 3-tomon bo'lgan React Router dan foydalanamiz
+
+
+ROUTER O'RNATISH
+npm i -D react-router-dom@latest
+
+=====================================
+
+ISHLATISH
+Alohida sahifalarni belgilovchi bir nechta component yaratib olamiz
+Sahifalarni /pages yoki /routes papkasiga saqlash yaxshi praktika
+Quyidagiarni yaratib olamiz:
+Layout.js
+Home.js
+Togaraklar.js
+Murabbiylar.js
+NoPage.js - sahifa tolilmasa shu yerga avtomatik tarzda utiladi
+
+--------------------------------------
+Avvalam bor  index.js ga BrowserRouter, Routes va Route qo'shishimiz kerak
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+index.js ning return() qismiga quyidagi kodni quying:
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="togaraklar" element={<Togaraklar />} />
+          <Route path="murabbiylar" element={<Murabbiylar />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
+
+- Eng ota element <BrowserRouter> bo'lishi kerak
+- Keying <Routes> yozishimiz kerak
+- Uning ichida <Route> lar yozamiz
+- Asosiy <Route> sifatida element={<Layout />} yozamiz. Shu boshqa Route larni 
+o'z ichiga oluvchi Route bo'ladi va u / bn belgilanadi. (App nomlansa ham buladi)
+- Uning ichida joylashgan Routelar ota Routega qo'shiladi va ularning path qiymatlari
+otaning ketidan yoziladi. Masalan /murabbiylar bo'ladi
+- path bermasdan index berilgan Route default birinchi ochiladigan Route bo'ladi
+- pathga "*" qiymati berilsa, agar mavjud bo'lmagan URL kiritilsa, usha Routega utiladi
+
+
+---------------------------------
+Ota Route bo'lmish Routega (hozirgi holatda Layout) ga biz quyidagi ikki element
+qo'shamiz:
+1. <Outlet /> - quyidagi tanlangan Route ni render qiladi
+2. <Link /> - tanlangan Route ni URL ni o'rnatadi
+
+import { Outlet, Link } from "react-router-dom";
+
+const Layout = () => {
+  return (
+    <>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/blogs">Blogs</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
+      </ul>
+
+      <Outlet />
+    </>
+  )
+};

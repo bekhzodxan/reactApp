@@ -1,0 +1,163 @@
+6-mavzu
+USEREF
+Reactda biz getElementById, querySelector ga muqobil tarzda useRef ishlatsak bo'ladi
+1. Avvalom bor biz useRef ni import qilib olishimiz kerak
+  import { useRef } from "react";
+
+2. Keyin biz komponent ichida useRef yordamida ref hosil qilib uni null ga tenglab quyamiz
+  const para = useRef(null);
+
+3. Keyin biz return() ichra hohlagan elementimizga ref={} yordamida tepada hosil qilingan refni beramiz
+  <p ref={para}></p>
+
+4. Murojaatni biz refNomi.current bilan qilamiz
+  para.current
+
+Mashq: h1ni ref yordamida tanlab oling. Ikki button hosil qiling. Biri bosilganda matn paydo bo'lsin.
+Ikkinchisi bosilganda matn yo'q bo'lsin
+========================================
+React da form bilan ishlash oddiy JS dan biroz boshqacharoq
+
+1. Input elementlarning value si state bilan boshqariladi
+const [name, setName] = useState("");
+
+  return (
+    <form>
+      <label>Enter your name:
+        <input
+          type="text" 
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </label>
+    </form>
+  a. Tepada ko'rsatilganidek inputning value si statega tenglashtirilib qo'yiladi
+  b. Input elementga onChange event berilib u yordamida state o'zgartiriladi
+
+2. Form ma'lumotlarini qabul qilish onSubmit eventi orqali bo'ladi
+<form onSubmit={handleSubmit}></form>
+
+3. Form sahifani refresh qilib yubormasligi uchun, handleSubmitda event.preventDefault() qilinadi
+Misol:
+function MyForm() {
+  const [name, setName] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`The name you entered was: ${name}`)
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Enter your name:
+        <input 
+          type="text" 
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </label>
+      <input type="submit" />
+    </form>
+  )
+}
+
+Mashq: yosh kiritilishini so'rang. Alertda "Siz falon yilda tug'ilgansiz" ni chiqaring
+
+
+4. Agar formda birdan ortiq inputlar bo'lsachi?
+  a. Har bir input element uchun name attributi beriladi
+  b. state bo'sh objectga tenglashtiriladi
+      const [inputs, setInputs] = useState({});
+  c. inputning qiymatlariga murojaat qilish uchun event.target.name and event.target.value
+    sintaksidan foydalanamiz va stateni o'zgartiramiz
+    const handleChange = (event) => {
+      const name = event.target.name;
+      const value = event.target.value;
+      setInputs(values => ({...values, [name]: value}))
+    }
+  
+Misol:
+function MyForm() {
+  const [inputs, setInputs] = useState({});
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(inputs);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Enter your name:
+      <input 
+        type="text" 
+        name="username" 
+        value={inputs.username || ""} 
+        onChange={handleChange}
+      />
+      </label>
+      <label>Enter your age:
+        <input 
+          type="number" 
+          name="age" 
+          value={inputs.age || ""} 
+          onChange={handleChange}
+        />
+        </label>
+        <input type="submit" />
+    </form>
+  )
+}
+
+Mashq: Registration form yasang (ism, email, username, password larni paragrafda chiqaring). 
+
+------------------------------------
+SELECT
+Selectning ishlashi Reactda biroz boshqacharoq
+Oddiy HTML da qaysi bir option tanlanganligini biz "selected" kalit so'zi bilan qilar edik
+<select>
+  <option value="Ford">Ford</option>
+  <option value="Volvo" selected>Volvo</option>
+  <option value="Fiat">Fiat</option>
+</select>
+
+React da biz yana statedan foydalanamiz va selectning valuesiga stateni beramiz va onChange beramiz
+  const [myCar, setMyCar] = useState("Volvo");
+  const handleChange = (event) => {
+    setMyCar(event.target.value)
+  }
+  <select value={myCar} onChange={handleChange}>
+    <option value="Ford">Ford</option>
+    <option value="Volvo">Volvo</option>
+    <option value="Fiat">Fiat</option>
+  </select>
+
+Mashq: Registrationga davlatni tanlash imkonoyatini beruvchi select qo'shing
+===========================================
+Bir Componentdan ikkinchisiga props Router yordamida props o'tkazish qanday bo'ladi?
+USENAVIGATE
+1. Import
+import { useNavigate } from "react-router-dom";
+2. Component ichida useNavigate()dan o'zgaruvchi hosil qilib olish
+  let navigate = useNavigate();
+3. Tepadagi o'zgaruvchi yordamida boshqa pathga o'tkazish
+  navigate("/togaraklar")
+4. O'tayotgan componentimizga props bermoqchi bo'lsak object sifatida beramiz
+  navigate("/togaraklar", {state: {ism: 'Eshmat', familiya:'Toshmatov'}});
+------------------------
+5. Qiymatlarni qabul qilish uchun USELOCATION dan foydalanamiz
+import { useLocation } from "react-router-dom";
+6. Component ichida useLocation()dan o'zgaruvchi hosil qilib olish
+7. Uzatilgan propsga location.state.xossa orqali murojaat qilamiz
+      <div>{location.state.ism}</div>
+
+
+
+
+
+
